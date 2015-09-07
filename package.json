@@ -8,7 +8,9 @@
   },
   "dependencies": {
     "hogan-express": "*",
-    "express": "~4.9.x"
+    "express": "~4.9.x",
+    "request-promise": "*",
+    "bluebird": "*"
   },
   "engines": {
     "node": "0.12.2"

@@ -7,8 +7,13 @@
 </head>
 
 <body>
-	<div class="container">
-	  {{ sunrise }}, {{ sunset }}
-	</div>
+    <div class="container">
+      {{#suns}}
+        <div>
+            <img src="{{img_url}}">
+            <a href="{{status_url}}">@{{handle}}</a>
+        </div>
+      {{/suns}}
+    </div>
 </body>
 </html>
