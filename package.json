@@ -10,7 +10,8 @@
     "hogan-express": "*",
     "express": "~4.9.x",
     "request-promise": "*",
-    "bluebird": "*"
+    "bluebird": "*",
+    "moment": "*"
   },
   "engines": {
     "node": "0.12.2"

@@ -9,10 +9,9 @@
 <body>
     <div class="container">
       {{#suns}}
-        <div class="sun">
-            <img src="{{img_url}}">
-            <a href="{{status_url}}">@{{handle}}</a>
-        </div>
+        <a href="{{status_url}}" class="sun" style="background-image: url({{img_url}})">
+            <p class="handle">@{{handle}}</p>
+        </a>
       {{/suns}}
     </div>
 </body>

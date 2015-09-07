@@ -10,8 +10,16 @@ a {
 .sun {
 	width: 50%;
 	float: right;
+	height: 500px;
+	background-size: cover;
+    background-repeat: no-repeat;
+    position: relative;
 }
 
-img {
-	width: 100%;
+.sun .handle {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	margin: 0;
+	padding: 5px;
 }

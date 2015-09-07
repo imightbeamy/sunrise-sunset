@@ -1,4 +1,5 @@
 var request = require('request-promise');
+var moment = require('moment');
 
 function getBearerToken() {
 	var api_key = process.env.API_KEY,
@@ -22,13 +23,14 @@ function getBearerToken() {
 	});
 }
 
-function getTweets(access_token, query) {
+function getTweets(access_token, query_list) {
+	var query = query_list.join(" ");
 	var options = {
 		headers: {
 			"Authorization": "Bearer " + access_token,
 		},
 		qs: {
-			"q": query + " filter:images",
+			"q": query,
 			"count": 1,
 			"result_type": "recent",
 			"include_entities": true
@@ -44,7 +46,11 @@ function getTweets(access_token, query) {
 module.exports = {
 	searchImages: function(query, count) {
 		return getBearerToken().then(function(access_token) {
-			return getTweets(access_token, query);
+			return getTweets(access_token, [
+				query,
+				"filter:images",
+				"since:" + moment().format('YYYY-MM-DD'),
+			]);
 		});
 	}
 };

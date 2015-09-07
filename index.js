@@ -1,6 +1,7 @@
 var express = require('express');
 var Promise = require('bluebird');
 var twitter = require('./src/twitter');
+var moment = require('moment');
 var view = require('./src/view');
 
 var app = express();
@@ -10,13 +11,18 @@ app.set('views', __dirname + '/views');
 app.engine('mustache', require('hogan-express'));
 app.set('view engine', 'mustache');
 
+var sun_queries = [
+    "#sunrise -sunset",
+    "#sunset -sunrise"
+];
+
 app.get('/', function(req, res) {
-    var promises = [ "#sunrise", "#sunset" ].map(twitter.searchImages);
+    var promises = sun_queries.map(twitter.searchImages);
     Promise.all(promises).then(function(search_results) {
         res.render('index', view.indexData(search_results));
     })
     .catch(function(err) {
-        console.error(JSON.stringify(err));
+        console.error(err, JSON.stringify(err));
     });
 });
 
