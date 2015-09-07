@@ -11,7 +11,8 @@
     "express": "~4.9.x",
     "request-promise": "*",
     "bluebird": "*",
-    "moment": "*"
+    "moment": "*",
+    "pg-promise": "*"
   },
   "engines": {
     "node": "0.12.2"

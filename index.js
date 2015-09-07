@@ -1,7 +1,6 @@
 var express = require('express');
 var Promise = require('bluebird');
 var twitter = require('./src/twitter');
-var moment = require('moment');
 var view = require('./src/view');
 
 var app = express();
@@ -12,8 +11,8 @@ app.engine('mustache', require('hogan-express'));
 app.set('view engine', 'mustache');
 
 var sun_queries = [
-    "#sunrise -sunset",
-    "#sunset -sunrise"
+    ["#sunrise -sunset"],
+    ["#sunset -sunrise"]
 ];
 
 app.get('/', function(req, res) {
