@@ -31,7 +31,6 @@ function getTweetData(tweet) {
         tweet_created_at: tweet.created_at,
         tweet_location: tweet.location,
         image_type: "sunrise",
-        status_url: "https://twitter.com/statuses/" + tweet.id_str
     };
 }
 
