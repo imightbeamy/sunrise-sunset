@@ -2,3 +2,16 @@ body {
   background: black;
   color: white;
 }
+
+a {
+	color: white;
+}
+
+.sun {
+	width: 50%;
+	float: right;
+}
+
+img {
+	width: 100%;
+}
