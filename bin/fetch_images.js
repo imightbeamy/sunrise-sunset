@@ -1,15 +1,20 @@
 var moment = require('moment');
 var Promise = require('bluebird');
+var _ = require('underscore');
 
 var twitter = require('../src/twitter');
 var db = require('../src/db');
+var alchemy = require('../src/alchemy');
 
+var VALID_TAGS = [
+    "sky", "sunset", "sun", "sunrise",
+    "cloud", "water", "reflection" ];
 var sql = "insert into sun_images" +
           "(create_date, handle, tweet_img_url, tweet_id, tweet_text, tweet_created_at, tweet_location, image_type) " +
           "values($1, $2, $3, $4, $5, $6, $7, $8)";
 
-function saveImage(search_results, image_type) {
-    var tweet = search_results[0];
+function saveImage(tweet, image_type) {
+    console.log("Saving image", tweet);
     return db.pg.none(sql, [
         moment(),
         tweet.handle,
@@ -28,8 +33,27 @@ function search(query, image_type) {
         "-RT -follow -free",
         "filter:images",
         "since:" + moment().format('YYYY-MM-DD'),
-    ]).then(function(search_results) {
-        return saveImage(search_results, image_type)
+    ], 10).then(function(tweets) {
+        return checkTags(tweets, image_type, 0);
+    });
+}
+
+function checkTags(tweets, image_type, i) {
+    var tweet = tweets[i];
+    alchemy.getImageTags(tweet.img_url).then(function(tags) {
+        var image_tags = _.pluck(tags, "text"),
+            valid_tags = _.intersection(image_tags, VALID_TAGS).length;
+        console.log("Got tags", tweet.img_url, image_tags);
+        if (valid_tags) {
+            // This is prob a sun, use it!
+            console.log("Got good image on try #" + (i + 1));
+            return saveImage(tweet, image_type);
+        } else if (i < tweets.length + 1) {
+            // Prob not a sun, keep looking :/
+            return checkTags(tweets, image_type, i + 1);
+        } else {
+            return Promise.resolve("No image");
+        }
     });
 }
 

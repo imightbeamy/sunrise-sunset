@@ -1,8 +1,8 @@
 var request = require('request-promise');
 
 function getBearerToken() {
-    var api_key = process.env.API_KEY,
-        api_secret = process.env.API_SECRET,
+    var api_key = process.env.TWITTER_API_KEY,
+        api_secret = process.env.TWITTER_API_SECRET,
         api_token = encodeURIComponent(api_key) + ":" + encodeURIComponent(api_secret),
         authorization = new Buffer(api_token).toString('base64');
 
@@ -34,7 +34,7 @@ function getTweetData(tweet) {
     };
 }
 
-function getTweets(access_token, query_list) {
+function getTweets(access_token, query_list, count) {
     var query = query_list.join(" ");
     var options = {
         headers: {
@@ -42,7 +42,7 @@ function getTweets(access_token, query_list) {
         },
         qs: {
             "q": query,
-            "count": 1,
+            "count": count,
             "result_type": "recent",
             "include_entities": true
         },
@@ -59,7 +59,7 @@ function getTweets(access_token, query_list) {
 module.exports = {
     searchImages: function(query_list, count) {
         return getBearerToken().then(function(access_token) {
-            return getTweets(access_token, query_list);
+            return getTweets(access_token, query_list, count);
         });
     }
 };

@@ -12,7 +12,8 @@
     "request-promise": "*",
     "bluebird": "*",
     "moment": "*",
-    "pg-promise": "*"
+    "pg-promise": "*",
+    "underscore": "*"
   },
   "engines": {
     "node": "0.12.2"
