@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Sunrise, Sunset</title>
+    <title>Sunrise, Sunset.</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="/main.css" />
 </head>
 
 <body>
+
+    <p class="about">The sun is always rising (and setting) somewhere.</p>
     <div class="container">
       {{#suns}}
         <a href="{{status_url}}" class="sun" style="background-image: url({{img_url}})">
@@ -14,5 +16,16 @@
         </a>
       {{/suns}}
     </div>
+
+    <p class="about bottom">
+        Created by <a href="http://amyciavolino.com/">Amy Ciavolino</a>.
+        Code on <a href="https://github.com/imightbeamy/sunrise-sunset">GitHub</a>.
+    <p>
+
+    <script>
+        setTimeout(function() {
+            window.location.reload(true);
+        }, 1000 * 60 * 10);
+    </script>
 </body>
 </html>

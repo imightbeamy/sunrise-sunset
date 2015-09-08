@@ -2,10 +2,24 @@ body {
     background: black;
     color: white;
     margin: 0;
+    font-family: monospace;
 }
 
 a {
     color: white;
+}
+
+.about {
+    padding: 8px;
+    margin: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    text-align: center;
+}
+.about.bottom {
+    top: inherit;
+    bottom: 0;
 }
 
 .container {
