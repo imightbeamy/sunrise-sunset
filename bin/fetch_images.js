@@ -9,6 +9,10 @@ var alchemy = require('../src/alchemy');
 var VALID_TAGS = [
     "sky", "sunset", "sun", "sunrise",
     "cloud", "water", "reflection", "beach", "sea" ];
+var INVALID_TAGS = [
+    "moon"
+];
+
 var sql = "insert into sun_images" +
           "(create_date, handle, tweet_img_url, tweet_id, tweet_text, tweet_created_at, tweet_location, image_type) " +
           "values($1, $2, $3, $4, $5, $6, $7, $8)";
@@ -42,9 +46,12 @@ function checkTags(tweets, image_type, i) {
     var tweet = tweets[i];
     alchemy.getImageTags(tweet.img_url).then(function(tags) {
         var image_tags = _.pluck(tags, "text"),
-            valid_tags = _.intersection(image_tags, VALID_TAGS).length;
+            has_valid_tags = _.intersection(image_tags, VALID_TAGS).length,
+            has_invalid_tags = _.intersection(image_tags, INVALID_TAGS).length;
+
         console.log("Got tags", tweet.img_url, image_tags);
-        if (valid_tags) {
+
+        if (has_valid_tags && !has_invalid_tags) {
             // This is prob a sun, use it!
             console.log("Got good image on try #" + (i + 1));
             return saveImage(tweet, image_type);
