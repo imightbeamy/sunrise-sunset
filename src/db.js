@@ -3,4 +3,7 @@ var pgp = require('pg-promise')({
     promiseLib: Promise
 });
 
-module.exports = pgp(process.env.DATABASE_URL + "?ssl=true");
+module.exports = {
+    pg: pgp(process.env.DATABASE_URL + "?ssl=true"),
+    pg_end: pgp.end
+};
