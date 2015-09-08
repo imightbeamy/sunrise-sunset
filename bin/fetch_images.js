@@ -8,7 +8,7 @@ var alchemy = require('../src/alchemy');
 
 var VALID_TAGS = [
     "sky", "sunset", "sun", "sunrise",
-    "cloud", "water", "reflection" ];
+    "cloud", "water", "reflection", "beach", "sea" ];
 var sql = "insert into sun_images" +
           "(create_date, handle, tweet_img_url, tweet_id, tweet_text, tweet_created_at, tweet_location, image_type) " +
           "values($1, $2, $3, $4, $5, $6, $7, $8)";

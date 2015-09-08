@@ -10,7 +10,7 @@ a {
 }
 
 .about {
-    padding: 8px;
+    padding: 8px 0;
     margin: 0;
     position: absolute;
     top: 0;
@@ -33,7 +33,7 @@ a {
 .sun {
     width: 50%;
     float: left;
-    height: 50vh;
+    height: 70vh;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: 50%;
