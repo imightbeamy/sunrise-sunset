@@ -2,7 +2,7 @@ function tweetData(tweet) {
     return {
         status_url: "https://twitter.com/" + tweet.handle + "/statuses/" + tweet.tweet_id,
         handle: tweet.handle,
-        img_url: tweet.tweet_img_url,
+        img_url: tweet.tweet_img_url + ":large",
         location: tweet.tweet_location,
     };
 }
