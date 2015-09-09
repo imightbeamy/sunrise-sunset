@@ -13,7 +13,8 @@
     "bluebird": "*",
     "moment": "*",
     "pg-promise": "*",
-    "underscore": "*"
+    "underscore": "*",
+    "node-schedule": "*"
   },
   "engines": {
     "node": "0.12.2"

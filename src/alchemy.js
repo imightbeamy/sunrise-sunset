@@ -1,4 +1,5 @@
 var request = require('request-promise');
+var Promise = require('bluebird');
 
 function getImageTags(url) {
     var options = {
@@ -13,8 +14,13 @@ function getImageTags(url) {
 
     return request.get(options).then(function(response) {
         response = JSON.parse(response);
-        console.log("Got tags. Count: " + response.imageKeywords.length);
-        return response.imageKeywords;
+        if (response.imageKeywords) {
+            console.log("Got tags (count " + response.imageKeywords.length + ")");
+            return response.imageKeywords;
+        } else {
+            console.log("Got no tags: " + response);
+            return Promise.reject("Alchemy API failure");
+        }
     });
 }
 

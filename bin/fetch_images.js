@@ -1,6 +1,7 @@
 var moment = require('moment');
 var Promise = require('bluebird');
 var _ = require('underscore');
+var schedule = require('node-schedule');
 
 var twitter = require('../src/twitter');
 var db = require('../src/db');
@@ -44,32 +45,43 @@ function search(query, image_type) {
 
 function checkTags(tweets, image_type, i) {
     var tweet = tweets[i];
-    alchemy.getImageTags(tweet.img_url).then(function(tags) {
+    return alchemy.getImageTags(tweet.img_url).then(function(tags) {
+
         var image_tags = _.pluck(tags, "text"),
             has_valid_tags = _.intersection(image_tags, VALID_TAGS).length,
             has_invalid_tags = _.intersection(image_tags, INVALID_TAGS).length;
 
-        console.log("Got tags", tweet.img_url, image_tags);
+        console.log("Got tags for image", tweet.img_url, image_tags);
 
+        var try_number = i + 1;
         if (has_valid_tags && !has_invalid_tags) {
             // This is prob a sun, use it!
-            console.log("Got good image on try #" + (i + 1));
+            console.log("Got valid image on (try " + try_number + ")");
             return saveImage(tweet, image_type);
         } else if (i < tweets.length + 1) {
             // Prob not a sun, keep looking :/
+            console.log("Invalid image, checking next image (try " + try_number + ")");
             return checkTags(tweets, image_type, i + 1);
         } else {
+            console.log("Failed to find valid image (try " + try_number + ")");
             return Promise.resolve("No image");
         }
     });
 }
 
-var promises = [
-    search("#sunrise -sunset", "sunrise"),
-    search("#sunset -sunrise", "sunset")
-];
+function fetchImages() {
+    console.log("Starting image fetch");
+    var promises = [
+        search("#sunrise -sunset", "sunrise"),
+        search("#sunset -sunrise", "sunset")
+    ];
 
-Promise.all(promises).then(function() {
-    console.log("Compleated");
-    db.pg_end();
-});
+    Promise.all(promises).then(function() {
+        console.log("Compleated fetching images");
+    }).catch(function(err) {
+        console.error("Error while fetching images:", err);
+    });
+}
+
+console.log("Starting image fetch worker");
+var job = schedule.scheduleJob('*/15 * * * *', fetchImages);

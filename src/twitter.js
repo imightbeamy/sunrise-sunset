@@ -51,7 +51,7 @@ function getTweets(access_token, query_list, count) {
 
     return request.get(options).then(function(response) {
         response = JSON.parse(response);
-        console.log("Got response: " + response.statuses.length);
+        console.log("Got tweets for '" + query + "'' (count " + response.statuses.length + ")");
         return response.statuses.map(getTweetData);
     });
 }
