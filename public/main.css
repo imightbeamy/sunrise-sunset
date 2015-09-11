@@ -56,10 +56,17 @@ a {
     box-sizing: border-box;
     text-align: center;
 }
-.timeline input {
-    width: 100%;
-    opacity: 0;
-    transition: opacity 3s;
+
+.timeline button {
+    font-size: 3vh;
+    border: none;
+    background-color: #FFF;
+    border-radius: 2px;
+    padding: 0 20px 4px;
+}
+
+button:focus {
+    outline: none;
 }
 
 @media (max-aspect-ratio: 1/1) {
@@ -67,70 +74,4 @@ a {
         width: 100%;
         height: 37vh;
     }
-}
-
-/* Range input css via http://danielstern.ca/range.css/ (with edits) */
-input[type=range] {
-  -webkit-appearance: none;
-  width: 100%;
-  margin: 10.8px 0;
-}
-input[type=range]:focus {
-  outline: none;
-}
-input[type=range]::-webkit-slider-runnable-track {
-  width: 100%;
-  height: 8.4px;
-  cursor: pointer;
-  background: #aaaaaa;
-}
-input[type=range]::-webkit-slider-thumb {
-  height: 30px;
-  width: 15px;
-  background: #ffffff;
-  cursor: pointer;
-  -webkit-appearance: none;
-  margin-top: -11px;
-}
-input[type=range]:focus::-webkit-slider-runnable-track {
-  background: #aaaaaa;
-}
-input[type=range]::-moz-range-track {
-  width: 100%;
-  height: 8.4px;
-  cursor: pointer;
-  background: #aaaaaa;
-}
-input[type=range]::-moz-range-thumb {
-  height: 30px;
-  width: 15px;
-  background: #ffffff;
-  cursor: pointer;
-}
-input[type=range]::-ms-track {
-  width: 100%;
-  height: 8.4px;
-  cursor: pointer;
-  background: transparent;
-  border-color: transparent;
-  color: transparent;
-}
-input[type=range]::-ms-fill-lower {
-  background: #aaaaaa;
-}
-input[type=range]::-ms-fill-upper {
-  background: #aaaaaa;
-}
-input[type=range]::-ms-thumb {
-  height: 30px;
-  width: 15px;
-  background: #ffffff;
-  cursor: pointer;
-  height: 8.4px;
-}
-input[type=range]:focus::-ms-fill-lower {
-  background: #aaaaaa;
-}
-input[type=range]:focus::-ms-fill-upper {
-  background: #aaaaaa;
 }

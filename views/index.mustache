@@ -15,11 +15,8 @@
             </a>
         {{/inital_suns}}
         <div class="timeline">
-            <input
-                type="range"
-                name="slider"
-                min="0" max="{{sun_count}}"
-                value="{{sun_count}}">
+            <button class="back"><</button >
+            <button class="forward">></button>
         </div>
     </div>
 
@@ -30,6 +27,8 @@
 
     <script>
         var more_suns = {{{more_suns}}};
+        var current = {{sun_count}};
+        var suns = document.querySelectorAll(".sun");
 
         function setTweet(sun_image, tweet) {
             sun_image.style.backgroundImage = 'url("' + tweet.img_url + '")';
@@ -38,30 +37,45 @@
                 tweet.info + ", " + new Date(tweet.time).toLocaleTimeString();
         }
 
-
-        var slider = document.querySelector(".timeline input");
-        slider.value = {{sun_count}}; // Firefox like to remeber where you where if you refresh
-        var suns = document.querySelectorAll(".sun");
-        slider.oninput = function() {
-            var pair = more_suns[parseInt(this.value)];
-            setTweet(suns[0], pair[0]);
-            setTweet(suns[1], pair[1]);
+        function update(change) {
+            if (current + change >= 0 && current + change < more_suns.length) {
+                current += change;
+                var pair = more_suns[current];
+                setTweet(suns[0], pair[0]);
+                setTweet(suns[1], pair[1]);
+            }
         };
 
-        function updateSlider(e) {
+        update(0);
+
+        document.querySelector(".back").onclick = function() {
+            update(-1);
+        };
+
+        document.querySelector(".forward").onclick = function() {
+            update(1);
+        };
+
+        window.onwheel = function(e) {
             e.preventDefault();
             if (e.deltaX) {
-                slider.value = parseInt(slider.value) + (e.deltaX > 0 ? 1 : -1);
-                slider.oninput();
+                update(e.deltaX > 0 ? 1 : -1);
             }
         }
 
-        // After a second, show the slider and init scroll
-        setTimeout(function() {
-            slider.style.opacity = 1;
-            slider.focus();
-            window.onwheel = updateSlider;
-        }, 1000);
+        document.onkeydown = function(e) {
+            console.log(e.which);
+            switch(e.which) {
+                case 37: // left
+                update(-1);
+                break;
+
+                case 39: // right
+                update(1);
+                break;
+            }
+        };
+
 
         // Refresh every 15 minutes
         setTimeout(function() {
