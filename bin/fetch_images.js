@@ -11,7 +11,7 @@ var VALID_TAGS = [
     "sky", "sunset", "sun", "sunrise",
     "cloud", "water", "reflection", "beach", "sea" ];
 var INVALID_TAGS = [
-    "moon"
+    "moon", "black and white"
 ];
 
 var sql = "insert into sun_images" +
