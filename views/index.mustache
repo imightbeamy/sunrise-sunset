@@ -7,22 +7,62 @@
 </head>
 
 <body>
-
-    <p class="about">The sun is always rising (and setting) somewhere.</p>
+    <p class="about">The sun is always rising and setting somewhere.</p>
     <div class="container">
-      {{#suns}}
-        <a href="{{status_url}}" class="sun" style="background-image: url({{img_url}})">
-            <p class="handle">@{{handle}}{{#location}}, {{location}}{{/location}}</p>
-        </a>
-      {{/suns}}
+        {{#inital_suns}}
+            <a href="{{status_url}}" target="_blank" class="sun" style="background-image: url({{img_url}})">
+                <p class="handle">{{info}}</p>
+            </a>
+        {{/inital_suns}}
+        <div class="timeline">
+            <input
+                type="range"
+                name="slider"
+                min="0" max="{{sun_count}}"
+                value="{{sun_count}}">
+        </div>
     </div>
 
     <p class="about bottom">
         Created by <a href="http://amyciavolino.com/">Amy Ciavolino</a>.
         Code on <a href="https://github.com/imightbeamy/sunrise-sunset">GitHub</a>.
-    <p>
+    </p>
 
     <script>
+        var more_suns = {{{more_suns}}};
+
+        function setTweet(sun_image, tweet) {
+            sun_image.style.backgroundImage = 'url("' + tweet.img_url + '")';
+            sun_image.href = tweet.status_url;
+            sun_image.children[0].innerHTML = tweet.info;
+        }
+
+
+        var slider = document.querySelector(".timeline input");
+        slider.value = {{sun_count}}; // Firefox like to remeber where you where if you refresh
+        var suns = document.querySelectorAll(".sun");
+        slider.oninput = function() {
+            var pair = more_suns[parseInt(this.value)];
+            setTweet(suns[0], pair[0]);
+            setTweet(suns[1], pair[1]);
+        };
+
+        function updateSlider(e) {
+            e.preventDefault();
+            if (e.deltaX) {
+                slider.value = parseInt(slider.value) + (e.deltaX > 0 ? 1 : -1);
+                slider.oninput();
+            }
+        }
+
+        // After a second, show the slider and init scroll
+        setTimeout(function() {
+            slider.style.opacity = 1;
+            slider.focus();
+            window.onwheel = updateSlider;
+        }, 1000);
+
+        // Refresh every 15 minutes
         setTimeout(function() {
             window.location.reload(true);
         }, 1000 * 60 * 15);
