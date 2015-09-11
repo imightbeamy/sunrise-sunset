@@ -1,3 +1,4 @@
+var moment = require('moment');
 
 var PAIR_WINDOW = 1000 * 60 * 5; // 5 minutes
 
@@ -21,7 +22,8 @@ function tweetData(tweet) {
     return {
         status_url: "https://twitter.com/" + tweet.handle + "/statuses/" + tweet.tweet_id,
         img_url: tweet.tweet_img_url + ":large",
-        info: "@" + tweet.handle
+        info: "@" + tweet.handle,
+        time: moment(tweet.tweet_created_at).utc().format()
     };
 }
 
@@ -29,7 +31,7 @@ module.exports = {
     indexData: function(tweet_sets) {
         var suns = pairImages(tweet_sets[0], tweet_sets[1]);
         return {
-            inital_suns: suns[suns.length - 1].map(function(tweet) {
+            inital_suns: suns[0].map(function(tweet) {
                 return tweetData(tweet);
             }),
             more_suns: JSON.stringify(suns.map(function(set) {

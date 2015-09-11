@@ -34,7 +34,8 @@
         function setTweet(sun_image, tweet) {
             sun_image.style.backgroundImage = 'url("' + tweet.img_url + '")';
             sun_image.href = tweet.status_url;
-            sun_image.children[0].innerHTML = tweet.info;
+            sun_image.children[0].innerHTML =
+                tweet.info + ", " + new Date(tweet.time).toLocaleTimeString();
         }
 
 

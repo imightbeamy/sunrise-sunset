@@ -14,7 +14,7 @@ app.engine('mustache', require('hogan-express'));
 app.set('view engine', 'mustache');
 
 var sql =
-    "select * from sun_images where image_type=$1 and create_date >= $2 order by create_date desc"
+    "select * from sun_images where image_type=$1 and create_date >= $2 order by create_date asc"
 
 app.get('/', function(req, res) {
 
