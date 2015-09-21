@@ -8,7 +8,7 @@ function setTweet(sun_image, tweet) {
         tweet.info + ", " + new Date(tweet.time).toLocaleTimeString();
 }
 
-function update(change) {
+function updateImages(change) {
     if (current + change >= 0 && current + change < more_suns.length) {
         current += change;
         var pair = more_suns[current];
@@ -17,21 +17,21 @@ function update(change) {
     }
 };
 
-update(0);
+updateImages(0);
 
 // Buttons
 document.querySelector(".back").onclick = function() {
-    update(-1);
+    updateImages(-1);
 };
 document.querySelector(".forward").onclick = function() {
-    update(1);
+    updateImages(1);
 };
 
 // Desktop scroll
 window.onwheel = function(e) {
     e.preventDefault();
     if (e.deltaX) {
-        update(e.deltaX > 0 ? 1 : -1);
+        updateImages(e.deltaX > 0 ? 1 : -1);
     }
 }
 
@@ -40,14 +40,25 @@ document.onkeydown = function(e) {
     console.log(e.which);
     switch(e.which) {
         case 37: // left
-        update(-1);
+        updateImages(-1);
         break;
 
         case 39: // right
-        update(1);
+        updateImages(1);
         break;
     }
 };
+
+// Mobile "scroll"
+var touch_x;
+document.ontouchstart = function(e) {
+    touch_x = e.changedTouches[0].clientX;
+}
+document.ontouchmove = function(e) {
+    var new_touch_x = e.changedTouches[0].clientX;
+    updateImages(new_touch_x > touch_x ? 1 : -1);
+    touch_x = new_touch_x;
+}
 
 // Refresh every 15 minutes
 setTimeout(function() {
