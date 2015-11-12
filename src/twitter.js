@@ -1,3 +1,4 @@
+"use strict";
 var request = require('request-promise');
 
 function getBearerToken() {
@@ -17,9 +18,7 @@ function getBearerToken() {
         url: "https://api.twitter.com/oauth2/token"
     };
 
-    return request.post(options).then(function(response) {
-        return JSON.parse(response).access_token;
-    });
+    return request.post(options).then(response => JSON.parse(response).access_token);
 }
 
 function getTweetData(tweet) {
@@ -49,7 +48,7 @@ function getTweets(access_token, query_list, count) {
         url: "https://api.twitter.com/1.1/search/tweets.json"
     };
 
-    return request.get(options).then(function(response) {
+    return request.get(options).then(response => {
         response = JSON.parse(response);
         console.log("Got tweets for '" + query + "'' (count " + response.statuses.length + ")");
         return response.statuses.map(getTweetData);
@@ -57,9 +56,8 @@ function getTweets(access_token, query_list, count) {
 }
 
 module.exports = {
-    searchImages: function(query_list, count) {
-        return getBearerToken().then(function(access_token) {
-            return getTweets(access_token, query_list, count);
-        });
+    searchImages: (query_list, count) => {
+        return getBearerToken()
+                .then(access_token => getTweets(access_token, query_list, count));
     }
 };

@@ -1,5 +1,4 @@
 var moment = require('moment');
-var Promise = require('bluebird');
 var _ = require('underscore');
 var schedule = require('node-schedule');
 

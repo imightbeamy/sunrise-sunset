@@ -1,5 +1,5 @@
+"use strict";
 var request = require('request-promise');
-var Promise = require('bluebird');
 
 function getImageTags(url) {
     var options = {
@@ -12,7 +12,7 @@ function getImageTags(url) {
         url: "http://access.alchemyapi.com/calls/url/URLGetRankedImageKeywords"
     };
 
-    return request.get(options).then(function(response) {
+    return request.get(options).then(response => {
         response = JSON.parse(response);
         if (response.imageKeywords) {
             console.log("Got tags (count " + response.imageKeywords.length + ")");

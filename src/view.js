@@ -1,3 +1,4 @@
+"use strict";
 var moment = require('moment');
 
 var PAIR_WINDOW = 1000 * 60 * 5; // 5 minutes
@@ -14,7 +15,7 @@ function pairImages(sunrises, sunsets) {
                 break;
             }
         }
-    };
+    }
     return pairs;
 }
 
@@ -31,12 +32,8 @@ module.exports = {
     indexData: function(tweet_sets) {
         var suns = pairImages(tweet_sets[0], tweet_sets[1]);
         return {
-            inital_suns: suns[0].map(function(tweet) {
-                return tweetData(tweet);
-            }),
-            more_suns: JSON.stringify(suns.map(function(set) {
-                return set.map(tweetData);
-            })),
+            inital_suns: suns[0].map(tweet => tweetData(tweet)),
+            more_suns: JSON.stringify(suns.map(set => set.map(tweetData))),
             sun_count: suns.length - 1,
             bar_width: suns.length * 5
         };

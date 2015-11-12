@@ -7,17 +7,16 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "hogan-express": "*",
+    "hogan-express": "~0.5.x",
     "express": "~4.9.x",
-    "request-promise": "*",
-    "bluebird": "*",
-    "moment": "*",
-    "pg-promise": "*",
-    "underscore": "*",
-    "node-schedule": "*"
+    "request-promise": "~0.4.x",
+    "moment": "~2.10.x",
+    "pg-promise": "~1.10.x",
+    "underscore": "~1.8.x",
+    "node-schedule": "~0.2.x"
   },
   "engines": {
-    "node": "0.12.2"
+    "node": "4.1.1"
   },
   "repository": {
     "type": "git",
