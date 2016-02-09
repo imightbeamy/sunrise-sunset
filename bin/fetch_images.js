@@ -83,4 +83,6 @@ function fetchImages() {
 }
 
 console.log("Starting image fetch worker");
-var job = schedule.scheduleJob('*/15 * * * *', fetchImages);
+
+var alive_job = schedule.scheduleJob({second: [0, 15, 30, 45]}, () => console.log("I'm alive!"));
+var fetch_job = schedule.scheduleJob({minute: [0, 15, 30, 45]}, fetchImages);
