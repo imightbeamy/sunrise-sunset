@@ -13,6 +13,9 @@ var INVALID_TAGS = [
     "moon", "black and white"
 ];
 
+var DAYS_TO_KEEP = 30;
+var del_sql = `delete from sun_images where create_date < current_date - interval '${DAYS_TO_KEEP} days'`;
+
 var sql = "insert into sun_images" +
           "(create_date, handle, tweet_img_url, tweet_id, tweet_text, tweet_created_at, tweet_location, image_type) " +
           "values($1, $2, $3, $4, $5, $6, $7, $8)";
@@ -82,7 +85,13 @@ function fetchImages() {
     });
 }
 
-console.log("Starting image fetch worker");
+function deleteOldImage() {
+    console.log("Deleting old images.", del_sql);
+    db.pg.none(del_sql);
+}
+
+console.log("Starting image worker");
 
 var alive_job = schedule.scheduleJob({second: [0, 15, 30, 45]}, () => console.log("I'm alive!"));
+var alive_job = schedule.scheduleJob({hour: 0}, deleteOldImage);
 var fetch_job = schedule.scheduleJob({minute: [0, 15, 30, 45]}, fetchImages);
