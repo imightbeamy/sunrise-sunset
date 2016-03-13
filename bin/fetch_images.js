@@ -93,5 +93,5 @@ function deleteOldImage() {
 console.log("Starting image worker");
 
 var alive_job = schedule.scheduleJob({second: [0, 15, 30, 45]}, () => console.log("I'm alive!"));
-var alive_job = schedule.scheduleJob({hour: 0}, deleteOldImage);
+var alive_job = schedule.scheduleJob({hour: 0, minute: 0, second: 0}, deleteOldImage);
 var fetch_job = schedule.scheduleJob({minute: [0, 15, 30, 45]}, fetchImages);
