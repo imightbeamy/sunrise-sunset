@@ -29,7 +29,7 @@ function saveImage(tweet, image_type) {
         tweet.tweet_id,
         tweet.tweet_text,
         tweet.tweet_created_at,
-        tweet.tweet_location, 
+        tweet.tweet_location,
         image_type,
     ]);
 }
@@ -71,27 +71,17 @@ function checkTags(tweets, image_type, i) {
     });
 }
 
-function fetchImages() {
-    console.log("Starting image fetch");
-    var promises = [
-        search("#sunrise -sunset", "sunrise"),
-        search("#sunset -sunrise", "sunset")
-    ];
+console.log("Deleting old images.", del_sql);
+db.pg.none(del_sql);
 
-    Promise.all(promises).then(function() {
-        console.log("Compleated fetching images");
-    }).catch(function(err) {
-        console.error("Error while fetching images:", err);
-    });
-}
+console.log("Starting image fetch");
+var promises = [
+    search("#sunrise -sunset", "sunrise"),
+    search("#sunset -sunrise", "sunset")
+];
 
-function deleteOldImage() {
-    console.log("Deleting old images.", del_sql);
-    db.pg.none(del_sql);
-}
-
-console.log("Starting image worker");
-
-var alive_job = schedule.scheduleJob({second: [0, 15, 30, 45]}, () => console.log("I'm alive!"));
-var alive_job = schedule.scheduleJob({hour: 0, minute: 0, second: 0}, deleteOldImage);
-var fetch_job = schedule.scheduleJob({minute: [0, 15, 30, 45]}, fetchImages);
+Promise.all(promises).then(function() {
+    console.log("Compleated fetching images");
+}).catch(function(err) {
+    console.error("Error while fetching images:", err);
+});
