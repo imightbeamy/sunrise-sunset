@@ -22,7 +22,7 @@ function getBearerToken() {
 }
 
 function getTweetData(tweet) {
-    return {
+    return tweet.entities.media ? {
         handle: tweet.user.screen_name,
         img_url: tweet.entities.media[0].media_url,
         tweet_id: tweet.id_str,
@@ -30,7 +30,7 @@ function getTweetData(tweet) {
         tweet_created_at: tweet.created_at,
         tweet_location: tweet.location,
         image_type: "sunrise",
-    };
+    } : null;
 }
 
 function getTweets(access_token, query_list, count) {

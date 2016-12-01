@@ -40,7 +40,7 @@ function search(query, image_type) {
         "-RT -follow -free",
         "filter:images",
         "since:" + moment().format('YYYY-MM-DD'),
-    ], 10).then(function(tweets) {
+    ], 12).then(function(tweets) {
         return checkTags(tweets, image_type, 0);
     });
 }
