@@ -1,6 +1,5 @@
 var moment = require('moment');
 var _ = require('underscore');
-var schedule = require('node-schedule');
 
 var twitter = require('../src/twitter');
 var db = require('../src/db');
@@ -13,8 +12,8 @@ var INVALID_TAGS = [
     "moon", "black and white"
 ];
 
-var DAYS_TO_KEEP = 30;
-var del_sql = `delete from sun_images where create_date < current_date - interval '${DAYS_TO_KEEP} days'`;
+var IMAGES_TO_KEEP = 1000;
+var del_sql = `DELETE FROM sun_images WHERE tweet_id NOT IN (SELECT tweet_id from sun_images ORDER BY create_date desc LIMIT ${IMAGES_TO_KEEP});`
 
 var sql = "insert into sun_images" +
           "(create_date, handle, tweet_img_url, tweet_id, tweet_text, tweet_created_at, tweet_location, image_type) " +
@@ -40,7 +39,8 @@ function search(query, image_type) {
         "-RT -follow -free",
         "filter:images",
         "since:" + moment().format('YYYY-MM-DD'),
-    ], 12).then(function(tweets) {
+    ], 12)
+    .then(function(tweets) {
         return checkTags(tweets, image_type, 0);
     });
 }
@@ -49,7 +49,7 @@ function checkTags(tweets, image_type, i) {
     var tweet = tweets[i];
     return alchemy.getImageTags(tweet.img_url).then(function(tags) {
 
-        var image_tags = _.pluck(tags, "text"),
+        var image_tags = _.pluck(tags, "class"),
             has_valid_tags = _.intersection(image_tags, VALID_TAGS).length,
             has_invalid_tags = _.intersection(image_tags, INVALID_TAGS).length;
 
@@ -72,7 +72,7 @@ function checkTags(tweets, image_type, i) {
 }
 
 console.log("Deleting old images.", del_sql);
-db.pg.none(del_sql);
+db.pg.none(del_sql)
 
 console.log("Starting image fetch");
 var promises = [
@@ -81,7 +81,8 @@ var promises = [
 ];
 
 Promise.all(promises).then(function() {
-    console.log("Compleated fetching images");
+    console.log("Compleated fetching images")
+    db.pg_end()
 }).catch(function(err) {
-    console.error("Error while fetching images:", err);
+    console.error("Error while fetching images:", err)
 });

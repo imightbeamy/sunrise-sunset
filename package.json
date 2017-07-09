@@ -1,5 +1,5 @@
 {
-  "name": "acid",
+  "name": "sunrise-sunset",
   "version": "0.1.4",
   "description": "",
   "main": "index.js",
@@ -7,16 +7,16 @@
     "start": "node index.js"
   },
   "dependencies": {
+    "express": "^4.15.3",
     "hogan-express": "~0.5.x",
-    "express": "~4.9.x",
-    "request-promise": "~0.4.x",
-    "moment": "~2.10.x",
-    "pg-promise": "~1.10.x",
+    "moment": "^2.18.1",
+    "pg-promise": "^6.3.1",
+    "request-promise": "^4.2.1",
     "underscore": "~1.8.x",
-    "node-schedule": "~0.2.x"
+    "watson-developer-cloud": "^2.34.0"
   },
   "engines": {
-    "node": "4.1.1"
+    "node": "7.x"
   },
   "repository": {
     "type": "git",
